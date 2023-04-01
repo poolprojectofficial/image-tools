@@ -4,10 +4,10 @@ import sharp from 'sharp'
 
 const dirPath = '/home/muniz/Downloads/image-small'
 const side = 128
-const dirName = `${side}-${side}-black`
-const dirImagesExtension = '.jpg'
+const resultDirName = `${side}x${side}-black`
+const imgExtensions = '.jpg'
 let blackBgImage: Buffer
-const gravityElements = ['north','northeast','east','southeast','south','southwest','west','northwest','center','centre',]
+const gravityElements = ['north', 'northeast', 'east', 'southeast', 'south', 'southwest', 'west', 'northwest', 'center', 'centre']
 
 export const composite = async () => {
   await updateBlackBgImageVar()
@@ -20,13 +20,13 @@ export const composite = async () => {
 }
 
 const createDirIfNotExisted = async () => {
-  const dirPathAndName = path.join(dirPath, dirName)
+  const dirPathAndName = path.join(dirPath, resultDirName)
   const dirExists = fs.existsSync(dirPathAndName)
   if (!dirExists) fs.mkdirSync(dirPathAndName)
 }
 
 const getImageNames = async () => {
-  return fs.readdirSync(dirPath, { encoding: 'utf-8' }).filter((a) => a.includes(dirImagesExtension))
+  return fs.readdirSync(dirPath, { encoding: 'utf-8' }).filter((a) => a.includes(imgExtensions))
 }
 
 const updateBlackBgImageVar = async (): Promise<void> => {
@@ -43,19 +43,19 @@ const updateBlackBgImageVar = async (): Promise<void> => {
 }
 
 const createNewCompositeImage = async (imageName: string) => {
-    const randomIndex = Math.round(Math.random() * 10) - 1
+  const randomIndex = Math.round(Math.random() * 10) - 1
 
   try {
     await sharp(blackBgImage)
       .composite([
         {
           input: path.join(dirPath, imageName),
-          gravity: gravityElements[randomIndex] 
+          gravity: gravityElements[randomIndex]
         }
       ])
       // .withMetadata()
       .png({ quality: 100 })
-      .toFile(path.join(dirPath, dirName, `${imageName}`))
+      .toFile(path.join(dirPath, resultDirName, `${imageName}`))
   } catch (err) {
     console.log(imageName, err)
   }

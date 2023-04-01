@@ -1,0 +1,26 @@
+<annotation>
+  <folder>128x128-black</folder>
+  <filename>baby_2.jpg</filename>
+  <path>/home/alexandre/Documents/projects/six-n-bus/datasets/128x128-black/baby_2.jpg</path>
+  <source>
+    <database>Unknown</database>
+  </source>
+  <size>
+    <width>67</width>
+    <height>67</height>
+    <depth>3</depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>baby</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>22</xmin>
+      <ymin>18</ymin>
+      <xmax>42</xmax>
+      <ymax>60</ymax>
+    </bndbox>
+  </object>
+</annotation>
