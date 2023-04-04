@@ -6,17 +6,21 @@ import jsontoxml from 'jsontoxml'
 import { convertToJsonAnnotation, createNewXmlFile, getDimensions } from '../tools'
 
 const imgSide = 128
-const dirBlackBgImg = '/home/muniz/projects/six&bus/repos/image-tools/src/annotation-adapter/data'
-const dirSmallImg = '/home/muniz/projects/six&bus/repos/image-tools/src/annotation-adapter/data/small'
+const dirBlackBgImg = '/home/muniz/Downloads/128x128-black'
+const dirSmallImg = '/home/muniz/Downloads/image-small'
 const imgExtension = '.jpg'
 
 export const getAnnotationsFromBlackBg = async () => {
-  const imgNames = await getImgNames()
-  console.log(imgNames)
-
-  for (const imgName of imgNames) {
-    const jsonAnnotation = await createAnnotation(imgName)
-    await createNewXmlFile(jsonAnnotation, imgName, dirSmallImg)
+  try {
+    const imgNames = await getImgNames()
+    console.log(imgNames)
+  
+    for (const imgName of imgNames) {
+      const jsonAnnotation = await createAnnotation(imgName)
+      await createNewXmlFile(jsonAnnotation, imgName, dirSmallImg)
+    }
+  } catch(err) {
+    console.log(err)
   }
 }
 
@@ -31,10 +35,10 @@ const getImgNames = async () => {
 
 const createAnnotation = async (imgName: string) => {
   const { height, width } = await getDimensions(imgName, dirSmallImg, imgExtension)
-  const x = Math.floor((imgSide - width) / 2)
-  const y = Math.floor((imgSide - height) / 2)
+  const x = - Math.floor((imgSide - width) / 2)
+  const y = - Math.floor((imgSide - height) / 2)
 
-  const jsonAnnotation = convertToJsonAnnotation(dirBlackBgImg, imgName,x, y, width, height, imgSide)
+  const jsonAnnotation = convertToJsonAnnotation({dirPath: dirBlackBgImg, imgName,x, y, width, height})
   return jsonAnnotation
 }
 
