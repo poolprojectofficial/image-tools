@@ -21,6 +21,12 @@ export const getDimensions = async (imageName: string, dirPath: string, imgExten
   return { height, width }
 }
 
+export const createDirIfNotExisted = async (dirPath: string, resultDirName: string) => {
+  const dirPathAndName = path.join(dirPath, resultDirName)
+  const dirExists = fs.existsSync(dirPathAndName)
+  if (!dirExists) fs.mkdirSync(dirPathAndName)
+}
+
 export const convertToJsonAnnotation = ({ dirPath, imgName, x, y, width, height, side }: IconvertToJsonAnnotation) => {
   const xmlPath = path.join(dirPath, imgName) + '.xml'
   const jsonAnnotation = xmlToJson(xmlPath)

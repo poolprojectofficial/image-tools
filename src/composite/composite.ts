@@ -1,10 +1,10 @@
 import fs from 'fs'
 import path from 'path'
 import sharp from 'sharp'
-import { convertToJsonAnnotation, createNewXmlFile, getDimensions } from '../tools'
+import { convertToJsonAnnotation, createDirIfNotExisted, createNewXmlFile, getDimensions } from '../tools'
 
-const dirPath = '/home/muniz/Downloads/300-images'
-const side = 96
+const dirPath = '/home/muniz/projects/six&bus/downloads/babies-standard-less-than-64'
+const side = 64
 const resultDirName = `${side}x${side}-black`
 const imgExtension = '.jpg'
 let bgImage: Buffer
@@ -15,7 +15,7 @@ let log: string
 export const composite = async () => {
   await setBlackBgImageVar()
   const images = await getImageNames()
-  await createDirIfNotExisted()
+  await createDirIfNotExisted(dirPath, resultDirName)
 
   for (const imageNameAndExt of images) {
     const randomIndex = Math.floor(Math.random() * gravityElements.length)
@@ -70,11 +70,12 @@ const createNewAnnotation = async (gravityElement: string, imgName: string) => {
   await createNewXmlFile(jsonAnnotation, imgName, xmlDirPath)
 }
 
-const createDirIfNotExisted = async () => {
-  const dirPathAndName = path.join(dirPath, resultDirName)
-  const dirExists = fs.existsSync(dirPathAndName)
-  if (!dirExists) fs.mkdirSync(dirPathAndName)
-}
+
+// const createDirIfNotExisted = async () => {
+//   const dirPathAndName = path.join(dirPath, resultDirName)
+//   const dirExists = fs.existsSync(dirPathAndName)
+//   if (!dirExists) fs.mkdirSync(dirPathAndName)
+// }
 
 const getImageNames = async () => {
   return fs.readdirSync(dirPath, { encoding: 'utf-8' }).filter((a) => a.includes(imgExtension))
